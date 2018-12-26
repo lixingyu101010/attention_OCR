@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7be06d7b-5a35-4732-8abb-2eef407454d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/attention_OCR.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/global_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/write_tfrecord_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/create_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/data_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/write_tfrecord.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/base_network.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/crnn_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/crnn_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +43,7 @@
         <counts>
           <entry key="JSON" value="36" />
           <entry key="PLAIN_TEXT" value="115" />
-          <entry key="Python" value="27989" />
+          <entry key="Python" value="28125" />
         </counts>
       </usages-collector>
     </session>
@@ -75,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/test_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="48" lean-forward="true" selection-start-line="23" selection-end-line="23" selection-end-column="48" />
+            <state relative-caret-position="497">
+              <caret line="57" column="103" lean-forward="true" selection-start-line="57" selection-start-column="103" selection-end-line="57" selection-end-column="103" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -99,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/crnn_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="90" column="88" lean-forward="true" selection-start-line="90" selection-start-column="88" selection-end-line="90" selection-end-column="88" />
+            <state relative-caret-position="459">
+              <caret line="128" column="27" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="27" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
                 <element signature="e#7354#13204#0" />
@@ -204,10 +192,10 @@
         <option value="$PROJECT_DIR$/train/base_network.py" />
         <option value="$PROJECT_DIR$/models/cnn_basenet.py" />
         <option value="$PROJECT_DIR$/data/__init__.py" />
-        <option value="$PROJECT_DIR$/test/test_model.py" />
-        <option value="$PROJECT_DIR$/models/crnn_model.py" />
         <option value="$PROJECT_DIR$/train/train.py" />
         <option value="$PROJECT_DIR$/config/global_config.py" />
+        <option value="$PROJECT_DIR$/models/crnn_model.py" />
+        <option value="$PROJECT_DIR$/test/test_model.py" />
       </list>
     </option>
   </component>
@@ -460,7 +448,7 @@
     <frame x="-3" y="23" width="1440" height="811" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15808298" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18097281" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -496,7 +484,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/crnn_model.py</url>
-          <line>286</line>
+          <line>290</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -614,16 +602,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/test_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="48" lean-forward="true" selection-start-line="23" selection-end-line="23" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/cnn_basenet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -654,12 +632,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/crnn_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="90" column="88" lean-forward="true" selection-start-line="90" selection-start-column="88" selection-end-line="90" selection-end-column="88" />
+        <state relative-caret-position="459">
+          <caret line="128" column="27" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="27" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
             <element signature="e#7354#13204#0" />
             <element signature="e#5830#5869#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="57" column="103" lean-forward="true" selection-start-line="57" selection-start-column="103" selection-end-line="57" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

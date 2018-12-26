@@ -22,6 +22,7 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
         self._train_phase = tf.constant('train', dtype=tf.string)
         self._test_phase = tf.constant('test', dtype=tf.string)
         self._is_training = tf.equal(self._train_phase, phase)
+        self.flag_train = True if phase == 'train' else False
         # if self._rnn_cell_type not in ['lstm', 'gru']:
         #     raise ValueError('rnn_cell_type should be in [\'lstm\', \'gru\']')
         # return
@@ -121,8 +122,11 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
             net_out = self.encode_coordinate_fn(sequence)
             sequence_logit = self.sequence_logit_fn(net_out, labels_one_hot)
             ids, logit_prob, scores = self.get_char_prdict(sequence_logit)
-            loss = self.create_loss(labels, logit_prob)
-            return loss, ids, scores, tensor_dict
+            if self.flag_train:
+                loss = self.create_loss(labels, logit_prob)
+                return loss, ids, scores, tensor_dict
+            else:
+                return None, ids, scores, tensor_dict
 
     def encode_coordinate_fn(self, net):
         batch_size, w, _ = net.shape.as_list()

@@ -21,7 +21,7 @@ logging.basicConfig(
 
 def train_atteion_network(dataset_dir, weight_path=None):
     FeatureIO = data_utils.TextFeatureReader()
-    images, labels = FeatureIO.read_features(dataset_dir, 20, 'Train')
+    images, labels = FeatureIO.read_features(dataset_dir, 50, 'Train')
     train_images, train_labels = tf.train.shuffle_batch(
         tensors=[images, labels], batch_size=CFG.BATCH_SIZE,
         capacity=1000 + 2 * 32, min_after_dequeue=100, num_threads=2
@@ -35,7 +35,7 @@ def train_atteion_network(dataset_dir, weight_path=None):
 
     # inputdata = inputdata / tf.constant(266, dtype=tf.float32)
 
-    network = crnn_model.ShadowNet(phase=phase_tensor)
+    network = crnn_model.ShadowNet(phase=phase_tensor, is_train=True)
 
     loss, ids, scores, tensor_dict = network.build_shadownet(inputdata, train_labels)
 
@@ -50,18 +50,27 @@ def train_atteion_network(dataset_dir, weight_path=None):
     with tf.control_dependencies(update_ops):
         optimizer = tf.train.AdadeltaOptimizer(learning_rate=learning_rate).minimize(loss=loss, global_step=global_step)
 
-    tfboard_save_path = '/home/oushu/lixingyu/git_repo/attention_OCR/tfboard/tb3'
+    tfboard_save_path = '/home/oushu/lixingyu/git_repo/attention_OCR/tfboard/tb4'
 
     train_loss_scalar = tf.summary.scalar(name='train_loss', tensor=loss)
     accuracy = tf.placeholder(tf.float32, shape=None, name='train_accuracy')
     train_accuracy_scalar = tf.summary.scalar(name='train_accuracy', tensor=accuracy)
+    train_learning_rate = tf.summary.scalar(name='learning_rate', tensor=learning_rate)
 
-    train_summary_op_merge = tf.summary.merge(inputs=[train_loss_scalar, train_accuracy_scalar])
+    train_merge_list = [train_loss_scalar, train_accuracy_scalar, train_learning_rate]
+
+    histogram_name_list = []
+    for vv in tf.trainable_variables():
+        if 'softmax' in vv.name:
+            histogram_name_list.append(tf.summary.histogram(vv.name, vv))
+
+    train_merge_list = train_merge_list + histogram_name_list
+    train_summary_op_merge = tf.summary.merge(inputs=train_merge_list)
 
     # restore_variable_list = [tmp.name for tmp in tf.trainable_variables()]
 
-    saver = tf.train.Saver(max_to_keep=5, keep_checkpoint_every_n_hours=2)
-    model_save_dir = '/home/oushu/lixingyu/git_repo/attention_OCR/checkpoint/checkpoint1'
+    saver = tf.train.Saver(max_to_keep=5)
+    model_save_dir = '/home/oushu/lixingyu/git_repo/attention_OCR/checkpoint/checkpoint2'
     train_start_time = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
     model_name = 'attention_network_{:s}.ckpt'.format(str(train_start_time))
     model_save_path = os.path.join(model_save_dir, model_name)

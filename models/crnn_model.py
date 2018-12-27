@@ -11,7 +11,7 @@ import numpy as np
 
 
 class ShadowNet(cnn_basenet.CNNBaseModel):
-    def __init__(self, phase):
+    def __init__(self, phase, is_train):
         super(ShadowNet, self).__init__()
         # self._phase = phase
         # # self._hidden_nums = hidden_nums
@@ -22,7 +22,7 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
         self._train_phase = tf.constant('train', dtype=tf.string)
         self._test_phase = tf.constant('test', dtype=tf.string)
         self._is_training = tf.equal(self._train_phase, phase)
-        self.flag_train = True if phase == 'train' else False
+        self.flag_train = is_train
         # if self._rnn_cell_type not in ['lstm', 'gru']:
         #     raise ValueError('rnn_cell_type should be in [\'lstm\', \'gru\']')
         # return
@@ -165,12 +165,12 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
             labels_list = tf.unstack(chars_labels, axis=1)
             batch_size, seq_length, _ = chars_logits.shape.as_list()
             reject_char = tf.constant(
-                0,
+                1,
                 shape=(batch_size, seq_length),
                 dtype=tf.int32
             )
-            known_char = tf.not_equal(chars_labels, reject_char)
-            weights = tf.to_float(known_char)
+            # known_char = tf.not_equal(chars_labels, reject_char)
+            weights = tf.to_float(reject_char)
             logits_list = tf.unstack(chars_logits, axis=1)
             weights_list = tf.unstack(weights, axis=1)
             loss = tf.contrib.legacy_seq2seq.sequence_loss(

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7be06d7b-5a35-4732-8abb-2eef407454d5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/config/global_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/global_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/crnn_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/crnn_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/test_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +45,7 @@
         <counts>
           <entry key="JSON" value="36" />
           <entry key="PLAIN_TEXT" value="115" />
-          <entry key="Python" value="28125" />
+          <entry key="Python" value="29084" />
         </counts>
       </usages-collector>
     </session>
@@ -53,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="88" column="55" selection-start-line="88" selection-start-column="55" selection-end-line="119" selection-end-column="10" />
+            <state relative-caret-position="435">
+              <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
                 <element signature="e#3652#4526#0" />
@@ -66,8 +68,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/test_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="57" column="103" lean-forward="true" selection-start-line="57" selection-start-column="103" selection-end-line="57" selection-end-column="103" />
+            <state relative-caret-position="532">
+              <caret line="69" column="30" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -90,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/crnn_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="128" column="27" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="27" />
+            <state relative-caret-position="349">
+              <caret line="239" column="49" lean-forward="true" selection-start-line="239" selection-start-column="49" selection-end-line="239" selection-end-column="49" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
                 <element signature="e#7354#13204#0" />
@@ -104,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/global_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+            <state relative-caret-position="135">
+              <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -174,6 +176,8 @@
       <find>hidden_nums</find>
       <find>train_accuracy</find>
       <find>phase</find>
+      <find>25</find>
+      <find>MAX_SEQ_LEN</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -192,9 +196,9 @@
         <option value="$PROJECT_DIR$/train/base_network.py" />
         <option value="$PROJECT_DIR$/models/cnn_basenet.py" />
         <option value="$PROJECT_DIR$/data/__init__.py" />
-        <option value="$PROJECT_DIR$/train/train.py" />
         <option value="$PROJECT_DIR$/config/global_config.py" />
         <option value="$PROJECT_DIR$/models/crnn_model.py" />
+        <option value="$PROJECT_DIR$/train/train.py" />
         <option value="$PROJECT_DIR$/test/test_model.py" />
       </list>
     </option>
@@ -591,6 +595,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/cnn_basenet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="173" column="48" selection-start-line="173" selection-start-column="48" selection-end-line="173" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/create_dataset.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="531">
@@ -602,38 +616,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/cnn_basenet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="173" column="48" selection-start-line="173" selection-start-column="48" selection-end-line="173" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/global_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="88" column="55" selection-start-line="88" selection-start-column="55" selection-end-line="119" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#3652#4526#0" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/crnn_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="128" column="27" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="27" />
+        <state relative-caret-position="349">
+          <caret line="239" column="49" lean-forward="true" selection-start-line="239" selection-start-column="49" selection-end-line="239" selection-end-column="49" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
             <element signature="e#7354#13204#0" />
@@ -642,10 +635,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/train/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#3652#4526#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/test_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="57" column="103" lean-forward="true" selection-start-line="57" selection-start-column="103" selection-end-line="57" selection-end-column="103" />
+        <state relative-caret-position="532">
+          <caret line="69" column="30" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

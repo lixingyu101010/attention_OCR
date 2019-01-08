@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow.python import debug as tf_debug
 import os
 import sys
 import time
@@ -21,10 +22,16 @@ logging.basicConfig(
 
 def train_atteion_network(dataset_dir, weight_path=None):
     FeatureIO = data_utils.TextFeatureReader()
-    images, labels = FeatureIO.read_features(dataset_dir, 50, 'Train')
+    images, labels = FeatureIO.read_features(dataset_dir, 20, 'Train')
     train_images, train_labels = tf.train.shuffle_batch(
         tensors=[images, labels], batch_size=CFG.BATCH_SIZE,
-        capacity=1000 + 2 * 32, min_after_dequeue=100, num_threads=2
+        capacity=1000 + 2 * 32, min_after_dequeue=100, num_threads=3
+    )
+
+    summary_input = tf.summary.image(
+        'input_image',
+        train_images,
+        3
     )
 
     ground_labels = tf.sparse_to_dense(train_labels.indices, [CFG.BATCH_SIZE, CFG.MAX_SEQ_LEN], train_labels.values)
@@ -50,27 +57,29 @@ def train_atteion_network(dataset_dir, weight_path=None):
     with tf.control_dependencies(update_ops):
         optimizer = tf.train.AdadeltaOptimizer(learning_rate=learning_rate).minimize(loss=loss, global_step=global_step)
 
-    tfboard_save_path = '/home/oushu/lixingyu/git_repo/attention_OCR/tfboard/tb4'
+    tfboard_save_path = CFG.TB_SAVE_DIR
 
     train_loss_scalar = tf.summary.scalar(name='train_loss', tensor=loss)
     accuracy = tf.placeholder(tf.float32, shape=None, name='train_accuracy')
     train_accuracy_scalar = tf.summary.scalar(name='train_accuracy', tensor=accuracy)
     train_learning_rate = tf.summary.scalar(name='learning_rate', tensor=learning_rate)
 
-    train_merge_list = [train_loss_scalar, train_accuracy_scalar, train_learning_rate]
+    train_merge_list = [train_loss_scalar, train_accuracy_scalar, train_learning_rate, summary_input]
 
     histogram_name_list = []
     for vv in tf.trainable_variables():
         if 'softmax' in vv.name:
-            histogram_name_list.append(tf.summary.histogram(vv.name, vv))
+                histogram_name_list.append(tf.summary.histogram(vv.name, vv))
+
+    # histogram_name_list.append('loss_weights', tensor_dict['loss_weights'])
 
     train_merge_list = train_merge_list + histogram_name_list
     train_summary_op_merge = tf.summary.merge(inputs=train_merge_list)
 
     # restore_variable_list = [tmp.name for tmp in tf.trainable_variables()]
 
-    saver = tf.train.Saver(max_to_keep=5)
-    model_save_dir = '/home/oushu/lixingyu/git_repo/attention_OCR/checkpoint/checkpoint2'
+    saver = tf.train.Saver(max_to_keep=3)
+    model_save_dir = CFG.CK_SAVE_DIR
     train_start_time = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
     model_name = 'attention_network_{:s}.ckpt'.format(str(train_start_time))
     model_save_path = os.path.join(model_save_dir, model_name)
@@ -95,13 +104,16 @@ def train_atteion_network(dataset_dir, weight_path=None):
         else:
             logging.info('Train from checkpoint')
             sess.run(tf.local_variables_initializer())
-            matchObj = re.search(r'-([0-9]*)\.meta', weight_path)
+            matchObj = re.search(r'ckpt-([0-9]*)', weight_path)
             start_step = int(matchObj.group(1))
             logging.info(start_step)
             saver.restore(sess=sess, save_path=weight_path)
 
         coord = tf.train.Coordinator()
-        threads = tf.train.start_queue_runners(coord=coord)
+        threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+
+        # debug_sess = tf_debug.LocalCLIDebugWrapperSession(sess, thread_name_filter="MainThread$")
+        # debug_sess.add_tensor_filter('has_inf_or_nan', tf_debug.has_inf_or_nan)
 
         for step in range(start_step, CFG.TRAIN_STEPS):
             _, cost, predict_ids, predict_scores, real_labels = sess.run([optimizer, loss, ids, scores, ground_labels], feed_dict={phase_tensor: 'train'})
@@ -157,4 +169,4 @@ class Decoder(object):
     #     coord.join(threads)
 
 if __name__ == '__main__':
-    train_atteion_network(CFG.DATASET_DIR)#, '/home/oushu/lixingyu/git_repo/attention_OCR/checkpoint/checkpoint0/attention_network_2018-12-25-11-49-34.ckpt-25300')
+    train_atteion_network(CFG.DATASET_DIR, CFG.PRE_WEIGHTS)

@@ -26,8 +26,9 @@ def write_tfrecord():
     print('epoch_num:', epoch_nums, 'train_images_nums:', train_images_num_example, 'batch_size:', cfg.TRAIN_BATCH_SIZE)
     for loop in tqdm.tqdm(range(epoch_nums)):
         train_images, train_labels = provider.train.next_batch(batch_size=cfg.TRAIN_BATCH_SIZE)
-        train_images = [cv2.resize(tmp, (100, 32)) for tmp in train_images]
-        train_images = [bytes(list(np.reshape(tmp, [100*32*3]))) for tmp in train_images]
+        train_images = [cv2.copyMakeBorder(tmp, 0, 0, 0, cfg.IMAGE_WIDTH-tmp.shape[1], cv2.BORDER_REPLICATE) for tmp in train_images]
+        train_images = [cv2.resize(tmp, (cfg.IMAGE_WIDTH, cfg.IMAGE_HIGHT)) for tmp in train_images]
+        train_images = [bytes(list(np.reshape(tmp, [cfg.IMAGE_WIDTH*cfg.IMAGE_HIGHT*3]))) for tmp in train_images]
         train_labels = train_labels.tolist()
         if loop*cfg.TRAIN_BATCH_SIZE+cfg.TRAIN_BATCH_SIZE > train_images_num_example:
             train_tfrecord_path = ops.join(cfg.SAVE_DIR, 'train_feature_{:d}_{:d}.tfrecords'.format(
@@ -45,9 +46,10 @@ def write_tfrecord():
     epoch_nums = int(math.ceil(test_image_num_example / cfg.TEST_BATCH_SIZE))
     print('epoch_num:', epoch_nums, 'test_images_num:', test_image_num_example, 'batch_size:', cfg.TEST_BATCH_SIZE)
     for loop in tqdm.tqdm(range(epoch_nums)):
-        test_images, test_labels = data_provider.test.next_batch(batch_size=cfg.TEST_BATCH_SIZE)
-        test_images = [cv2.resize(tmp, (100, 32)) for tmp in test_images]
-        test_images = [bytes(list(np.shape(tmp, [32*100*3]))) for tmp in test_images]
+        test_images, test_labels = provider.test.next_batch(batch_size=cfg.TEST_BATCH_SIZE)
+        test_images = [cv2.copyMakeBorder(tmp, 0,0,0,cfg.IMAGE_WIDTH-tmp.shape[1], cv2.BORDER_CONSTANT, value=(255, 255, 255)) for tmp in test_images]
+        test_images = [cv2.resize(tmp, (cfg.IMAGE_WIDTH, cfg.IMAGE_HIGHT)) for tmp in test_images]
+        test_images = [bytes(list(np.reshape(tmp, [cfg.IMAGE_WIDTH*cfg.IMAGE_HIGHT*3]))) for tmp in test_images]
         test_labels = test_labels.tolist()
         if loop*cfg.TEST_BATCH_SIZE+cfg.TEST_BATCH_SIZE > test_image_num_example:
             test_tfrecord_path = ops.join(cfg.SAVE_DIR, 'test_feature_{:d}_{:d}.tfrecords'.format(
@@ -65,9 +67,10 @@ def write_tfrecord():
     epoch_nums = int(math.ceil(validation_image_num_example / cfg.VALIDATION_BATCH_SIZE))
     print('epoch_num:', epoch_nums, 'test_images_num:', validation_image_num_example, 'batch_size:', cfg.VALIDATION_BATCH_SIZE)
     for loop in tqdm.tqdm(range(epoch_nums)):
-        validation_images, validation_labels = data_provider.validation.next_batch(cfg.VALIDATION_BATCH_SIZE)
-        validation_images = [cv2.resize(tmp, (100,32)) for tmp in validation_images]
-        validation_images = [bytes(list(np.reshape(tmp, [32*100*3]))) for tmp in validation_images]
+        validation_images, validation_labels = provider.validation.next_batch(cfg.VALIDATION_BATCH_SIZE)
+        validation_images = [cv2.copyMakeBorder(tmp, 0, 0, 0, cfg.IMAGE_WIDTH-tmp.shape[1], cv2.BORDER_CONSTANT, value=(255,255,255)) for tmp in validation_images]
+        validation_images = [cv2.resize(tmp, (cfg.IMAGE_WIDTH, cfg.IMAGE_HIGHT)) for tmp in validation_images]
+        validation_images = [bytes(list(np.reshape(tmp, [cfg.IMAGE_WIDTH*cfg.IMAGE_HIGHT*3]))) for tmp in validation_images]
         validation_labels = validation_labels.tolist()
         if loop*cfg.VALIDATION_BATCH_SIZE+cfg.VALIDATION_BATCH_SIZE > validation_image_num_example:
             validation_tfrecord_path = ops.join(cfg.SAVE_DIR, 'validation_feature_{:d}_{:d}.tfrecords'.format(
@@ -78,19 +81,21 @@ def write_tfrecord():
                 loop * cfg.VALIDATION_BATCH_SIZE, loop * cfg.VALIDATION_BATCH_SIZE + cfg.VALIDATION_BATCH_SIZE
             ))
 
-        Feature_io.wirte_features(tfrecord_path=validation_tfrecord_path, images=validation_images, labels=validation_labels)
+        Feature_io.write_features(tfrecord_path=validation_tfrecord_path, images=validation_images, labels=validation_labels)
     return
 
 def test_reader_tfrecord():
     FeatureIO = data_utils.TextFeatureReader()
+    print(cfg.SAVE_DIR)
     images, labels = FeatureIO.read_features(cfg.SAVE_DIR, 1, 'Train')
     test_images, test_labels = tf.train.shuffle_batch(
-        tensors=[images, labels], batch_size=2,
+        tensors=[images, labels], batch_size=32,
         capacity=1000 + 2 * 32, min_after_dequeue=100, num_threads=2
     )
     test_labels = tf.sparse_tensor_to_dense(test_labels)
+    # test_labels = tf.sparse_to_dense(test_labels.indices, [32, 22], test_labels.values)
     ld = []
-    with open(ops.join(cfg.DATASET_DIR, 'char_std_5990.txt'), 'r') as fp:
+    with open(ops.join(cfg.DATASET_DIR, 'char_6112.txt'), 'r') as fp:
         for line in fp.readlines():
             char = line.strip()
             ld.append(char)

@@ -13,19 +13,10 @@ import numpy as np
 class ShadowNet(cnn_basenet.CNNBaseModel):
     def __init__(self, phase, is_train):
         super(ShadowNet, self).__init__()
-        # self._phase = phase
-        # # self._hidden_nums = hidden_nums
-        # # self._layers_nums = layers_nums
-        # # self._seq_length = seq_length
-        # self._num_classes = num_classes
-        # # self._rnn_cell_type = rnn_cell_type.lower()
         self._train_phase = tf.constant('train', dtype=tf.string)
         self._test_phase = tf.constant('test', dtype=tf.string)
         self._is_training = tf.equal(self._train_phase, phase)
         self.flag_train = is_train
-        # if self._rnn_cell_type not in ['lstm', 'gru']:
-        #     raise ValueError('rnn_cell_type should be in [\'lstm\', \'gru\']')
-        # return
 
     @property
     def phase(self):
@@ -124,6 +115,7 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
             ids, logit_prob, scores = self.get_char_prdict(sequence_logit)
             if self.flag_train:
                 loss = self.create_loss(labels, logit_prob)
+                # tensor_dict['loss_weights'] = weights
                 return loss, ids, scores, tensor_dict
             else:
                 return None, ids, scores, tensor_dict
@@ -170,6 +162,15 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
                 dtype=tf.int32
             )
             # known_char = tf.not_equal(chars_labels, reject_char)
+            # unknown_char = tf.equal(chars_labels, reject_char)
+            # unknown_mask = tf.to_float(unknown_char)
+            # unknown_origin_weight = tf.constant(
+            #     0.02,
+            #     shape=(batch_size, seq_length),
+            #     dtype=tf.float32
+            # )
+            # known_origin_weights = tf.to_float(known_char)
+            # weights = tf.add(known_origin_weights, tf.multiply(unknown_mask, unknown_origin_weight))
             weights = tf.to_float(reject_char)
             logits_list = tf.unstack(chars_logits, axis=1)
             weights_list = tf.unstack(weights, axis=1)

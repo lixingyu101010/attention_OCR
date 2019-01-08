@@ -4,6 +4,10 @@ import os
 import cv2
 import re
 from PIL import Image
+import os
+import sys
+sys.path.append(os.getcwd())
+from config.write_tfrecord_config import cfg
 
 class FeatureIO(object):
     def __init__(self):
@@ -96,7 +100,7 @@ class TextFeatureReader(FeatureIO):
                                                'labels' : tf.VarLenFeature(tf.int64)
                                            })
         image = tf.decode_raw(features['images'], tf.uint8)
-        images = tf.reshape(image, [32, 100, 3])
+        images = tf.reshape(image, [cfg.IMAGE_HIGHT, cfg.IMAGE_WIDTH, 3])
         labels = features['labels']
         labels = tf.cast(labels, tf.int32)
         # labels = tf.sparse_tensor_to_dense(labels)
